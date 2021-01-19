@@ -11,6 +11,16 @@ HAVING MIN(sale_date) >= '2019-01-01' AND MAX(sale_date) <= '2019-03-31';
 # SOLUTION 2
 
 SELECT product_id, product_name 
+FROM Product 
+WHERE product_id NOT IN (SELECT p.product_id
+                        FROM Product p
+                        INNER JOIN Sales s
+                        USING (product_id)
+                        WHERE sale_date <'2019-01-01' OR sale_date > '2019-03-31') ;
+                        
+# SOLUTION 3
+
+SELECT product_id, product_name 
 FROM Product
 GROUP BY product_id
 HAVING product_id IN (SELECT product_id 
@@ -18,3 +28,5 @@ HAVING product_id IN (SELECT product_id
                         GROUP BY product_id
                         HAVING MIN(sale_date) >= '2019-01-01'
                         AND MAX(sale_date) <= '2019-03-31');
+                        
+             
