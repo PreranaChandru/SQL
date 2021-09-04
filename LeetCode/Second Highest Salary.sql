@@ -11,3 +11,13 @@ SELECT
     ORDER BY Salary DESC
     LIMIT 1 OFFSET 1)
 AS SecondHighestSalary;
+
+# SOULTION 3 (Using Window Function)
+
+SELECT MAX(Salary) AS SecondHighestSalary                            
+FROM 
+     (SELECT Salary,
+             DENSE_RANK() OVER(ORDER BY Salary DESC) AS R
+      FROM Employee
+     ) AS temp
+WHERE temp.R = 2;    
