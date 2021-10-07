@@ -10,6 +10,17 @@ AND
 SUM(p.product_name = 'iPhone') = 0;
 
 
+# 
+SELECT s.buyer_id
+FROM Sales s
+JOIN Product p
+    ON s.product_id = p.product_id
+GROUP BY buyer_id
+HAVING  SUM(CASE 
+                WHEN p.product_name ='S8' THEN 0
+                WHEN p.product_name = 'iPhone' THEN 1
+            END) = 0
+
 # SOLUTION 2
 
 SELECT s.buyer_id
